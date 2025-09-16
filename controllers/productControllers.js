@@ -6,6 +6,13 @@ const getProducts = async (req, res) => {
   res.json(allProducts);
 }
 
+const addProduct = async (req, res) => {
+  const postData = req.body;
+  const { id } = await productService.add(postData);
+  res.json({ id });
+}
+
 export const productControllers = {
-  getProducts
+  getProducts,
+  addProduct
 }

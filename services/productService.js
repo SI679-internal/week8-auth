@@ -6,6 +6,15 @@ const getAll = async () => {
   return productDocs.map(pDoc => Product.fromProductDocument(pDoc));
 }
 
+const add = async (productInfo) => {
+  const {insertedId} = await db.addToCollection(db.PRODUCTS, productInfo);
+  return {
+    id: insertedId.toString(),
+    ...productInfo
+  }
+}
+
 export const productService = {
-  getAll
+  getAll, 
+  add
 }
