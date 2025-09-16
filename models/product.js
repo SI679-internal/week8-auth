@@ -19,7 +19,7 @@ class Product {
     this.modelNumber = productFields.modelNumber ?? this.modelNumber;
     this.manufacturer = productFields.manufacturer ?? this.manufacturer;
     this.price = productFields.price ?? this.price;
-    this.color = productFields.color ?? this.color;
+    this.color = productFields.color ?? this.color; 
     this.quantity = productFields.quantity ?? this.quantity;
   }
 
