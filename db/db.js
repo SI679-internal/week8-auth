@@ -6,7 +6,9 @@ const dbName = 'week4';
 let mongoClient = null;
 let theDb = null;
 
-const PRODUCTS = 'products'; // coll name
+// coll names
+const PRODUCTS = 'products'; 
+const ORDERS = 'orders';
 
 const init = async () => {
   mongoClient = new MongoClient(mongoURI);
@@ -22,9 +24,7 @@ const getAllInCollection = async (collectionName) => {
 
 const addToCollection = async (collectionName, docData) => {
   if (!mongoClient) { await init(); }
-  console.log('about to insert', docData);
   const result = await theDb.collection(collectionName).insertOne(docData);
-  console.log(result);
   return result;
 }
 
@@ -32,5 +32,6 @@ export const db = {
   init, 
   getAllInCollection, 
   addToCollection,
-  PRODUCTS
+  PRODUCTS,
+  ORDERS
 }
