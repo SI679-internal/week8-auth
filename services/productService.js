@@ -6,6 +6,11 @@ const getAll = async () => {
   return productDocs.map(pDoc => Product.fromProductDocument(pDoc));
 }
 
+const getById = async (id) => {
+  const productDoc = await db.getFromCollectionById(db.PRODUCTS, id);
+  return Product.fromProductDocument(productDoc);
+}
+
 const add = async (productInfo) => {
   const {insertedId} = await db.addToCollection(db.PRODUCTS, productInfo);
   return {
@@ -14,7 +19,14 @@ const add = async (productInfo) => {
   }
 }
 
+const deleteIt = async (id) => {
+  const { deletedCount } = await db.deleteFromCollectionById(db.PRODUCTS, id);
+  return { deletedCount };
+}
+
 export const productService = {
   getAll, 
-  add
+  getById,
+  add,
+  deleteIt
 }

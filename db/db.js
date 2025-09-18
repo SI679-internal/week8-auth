@@ -22,6 +22,18 @@ const getAllInCollection = async (collectionName) => {
   return allDocs.toArray();
 }
 
+const getFromCollectionById = async (collectionName, id) => {
+  if (!mongoClient) { await init(); }
+  const doc = await theDb.collection(collectionName).findOne({_id: new ObjectId(String(id))});
+  return doc;
+}
+
+const deleteFromCollectionById = async (collectionName, id) => {
+  if (!mongoClient) { await init(); }
+  const result = await theDb.collection(collectionName).deleteOne({_id: new ObjectId(String(id))});
+  return result;
+}
+
 const addToCollection = async (collectionName, docData) => {
   if (!mongoClient) { await init(); }
   const result = await theDb.collection(collectionName).insertOne(docData);
@@ -31,7 +43,9 @@ const addToCollection = async (collectionName, docData) => {
 export const db = {
   init, 
   getAllInCollection, 
+  getFromCollectionById,
   addToCollection,
+  deleteFromCollectionById,
   PRODUCTS,
   ORDERS
 }

@@ -9,7 +9,7 @@ class Order {
   id = '';
   customerId = '';
   status = OrderStatus.STARTED;
-  items = {};
+  items = [];
 
   constructor(orderFields) {
     this.updateFields(orderFields);
@@ -22,7 +22,7 @@ class Order {
     this.items = {
       ...this.items,
       ...orderFields.items
-    }
+    } 
   }
 
   static fromOrderDocument = (doc) => {
