@@ -7,6 +7,7 @@ const getAll = async () => {
 }
 
 const getById = async (id) => {
+  if (!id) throw new Error('Null or undefined ID not allowed.');
   const productDoc = await db.getFromCollectionById(db.PRODUCTS, id);
   return Product.fromProductDocument(productDoc);
 }
@@ -20,6 +21,7 @@ const add = async (productInfo) => {
 }
 
 const deleteIt = async (id) => {
+  if (!id) throw new Error('Null or undefined ID not allowed.');
   const { deletedCount } = await db.deleteFromCollectionById(db.PRODUCTS, id);
   return { deletedCount };
 }
