@@ -20,6 +20,14 @@ const add = async (productInfo) => {
   }
 }
 
+const update = async (id, productInfo) => {
+  if (!id) throw new Error('Null or undefined ID not allowed.');
+  const { matchedCount, modifiedCount } = await db.updateInCollectionById(
+    db.PRODUCTS, id, productInfo
+  )
+  return { matchedCount, modifiedCount };
+}
+
 const deleteIt = async (id) => {
   if (!id) throw new Error('Null or undefined ID not allowed.');
   const { deletedCount } = await db.deleteFromCollectionById(db.PRODUCTS, id);
@@ -30,5 +38,6 @@ export const productService = {
   getAll, 
   getById,
   add,
+  update,
   deleteIt
 }

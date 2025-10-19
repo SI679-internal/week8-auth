@@ -28,6 +28,15 @@ const addProduct = async (req, res) => {
   res.json({ id });
 }
 
+const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const updateInfo = req.body;
+  const { matchedCount, modifiedCount } = await productService.update(
+    id, updateInfo
+  );
+  res.json({ matchedCount, modifiedCount });
+}
+
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
   const { deletedCount } = await productService.deleteIt(id);
@@ -38,5 +47,6 @@ export const productControllers = {
   getProducts,
   getProduct,
   addProduct,
+  updateProduct,
   deleteProduct
 }

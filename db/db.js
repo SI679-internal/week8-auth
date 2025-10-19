@@ -9,7 +9,8 @@ const ORDERS = 'orders';
 
 const init = async () => {
   const mongoURI = process.env.MONGO_URI;
-  const dbName = process.env.DB_NAME;
+  const dbName = process.env.MONGO_DBNAME;
+  console.log(`connecting to db ${dbName} at ${mongoURI}`)
   mongoClient = new MongoClient(mongoURI);
   await mongoClient.connect();
   theDb = mongoClient.db(dbName);
@@ -31,15 +32,26 @@ const getFromCollectionById = async (collectionName, id) => {
   return doc;
 }
 
-const deleteFromCollectionById = async (collectionName, id) => {
-  if (!mongoClient) { await init(); }
-  const result = await theDb.collection(collectionName).deleteOne({_id: new ObjectId(String(id))});
-  return result;
-}
-
 const addToCollection = async (collectionName, docData) => {
   if (!mongoClient) { await init(); }
   const result = await theDb.collection(collectionName).insertOne(docData);
+  return result;
+}
+
+const updateInCollectionById = async (collectionName, id, docData) => {
+  if (!mongoClient) { await init(); }
+  const result = await theDb.collection(collectionName).updateOne(
+    { _id: new ObjectId(String(id))},
+    { $set: {
+      docData
+    }} 
+  );
+  return result;
+}
+
+const deleteFromCollectionById = async (collectionName, id) => {
+  if (!mongoClient) { await init(); }
+  const result = await theDb.collection(collectionName).deleteOne({_id: new ObjectId(String(id))});
   return result;
 }
 
@@ -49,6 +61,7 @@ export const db = {
   getAllInCollection, 
   getFromCollectionById,
   addToCollection,
+  updateInCollectionById,
   deleteFromCollectionById,
   PRODUCTS,
   ORDERS
