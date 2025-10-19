@@ -1,8 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
 
-const mongoURI = 'mongodb://127.0.0.1:27017';
-const dbName = 'week4';
-
 let mongoClient = null;
 let theDb = null;
 
@@ -11,9 +8,15 @@ const PRODUCTS = 'products';
 const ORDERS = 'orders';
 
 const init = async () => {
+  const mongoURI = process.env.MONGO_URI;
+  const dbName = process.env.DB_NAME;
   mongoClient = new MongoClient(mongoURI);
   await mongoClient.connect();
   theDb = mongoClient.db(dbName);
+}
+
+const close = async () => {
+  await mongoClient.close();
 }
 
 const getAllInCollection = async (collectionName) => {
@@ -42,6 +45,7 @@ const addToCollection = async (collectionName, docData) => {
 
 export const db = {
   init, 
+  close,
   getAllInCollection, 
   getFromCollectionById,
   addToCollection,

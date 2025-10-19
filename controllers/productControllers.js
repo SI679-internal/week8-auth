@@ -8,8 +8,18 @@ const getProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   const { id } = req.params;
-  const theProduct = await productService.getById(id);
-  res.json(theProduct);
+  if (!id) {
+    return res.status(400).json({ error: 'Id is required' });
+  }
+  try {
+    const theProduct = await productService.getById(id);
+    if (!theProduct) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+    res.json(theProduct);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }
 
 const addProduct = async (req, res) => {
