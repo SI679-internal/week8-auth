@@ -6,6 +6,7 @@ let theDb = null;
 // coll names
 const PRODUCTS = 'products'; 
 const ORDERS = 'orders';
+const USERS = 'users';
 
 const init = async () => {
   const mongoURI = process.env.MONGO_URI;
@@ -29,6 +30,14 @@ const getAllInCollection = async (collectionName) => {
 const getFromCollectionById = async (collectionName, id) => {
   if (!mongoClient) { await init(); }
   const doc = await theDb.collection(collectionName).findOne({_id: new ObjectId(String(id))});
+  return doc;
+}
+
+const getFromCollectionByFieldValue = async (collectionName, fieldName, fieldValue) => {
+  if (!mongoClient) { await init(); }
+  const doc = await theDb
+    .collection(collectionName)
+    .findOne({[fieldName]: fieldValue});
   return doc;
 }
 
@@ -60,9 +69,11 @@ export const db = {
   close,
   getAllInCollection, 
   getFromCollectionById,
+  getFromCollectionByFieldValue,
   addToCollection,
   updateInCollectionById,
   deleteFromCollectionById,
   PRODUCTS,
-  ORDERS
+  ORDERS,
+  USERS
 }
